@@ -3,11 +3,11 @@ import { WebRoutes } from "./routes/routes";
 
 function App() {
   return (
-    // <WebProvider>
+    
     <AuthProvider>
       <WebRoutes />;
     </AuthProvider>
-    // </WebProvider>
+    
   );
 }
 
