@@ -1,21 +1,13 @@
-import { Route, Routes } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { Login } from "./pages/Login/";
-import { Register } from "./pages/Register";
-import { ToastContainer } from "react-toastify";
-import { injectStyle } from "react-toastify/dist/inject-style";
+import AuthProvider from "./contexts/AuthContext";
+import { WebRoutes } from "./routes/routes";
 
 function App() {
-  injectStyle();
   return (
-    <>
-      <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </>
+    // <WebProvider>
+    <AuthProvider>
+      <WebRoutes />;
+    </AuthProvider>
+    // </WebProvider>
   );
 }
 

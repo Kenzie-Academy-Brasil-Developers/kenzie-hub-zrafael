@@ -4,12 +4,11 @@ import { Forms, RegisterLink } from "../../styles/forms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import api from "../../services/request";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function Login() {
-  const navigate = useNavigate();
+  const { onLogin } = useContext(AuthContext);
 
   const yupSchema = yup.object().shape({
     email: yup
@@ -27,39 +26,10 @@ export function Login() {
     resolver: yupResolver(yupSchema),
   });
 
-  const onSubmit = (data) => {
-    api
-      .post("/sessions", data)
-      .then((res) => {
-        const { token, user } = res.data;
-        localStorage.setItem("KenzieHub:Token", token);
-        localStorage.setItem("KenzieHub:Name", user.name);
-        localStorage.setItem("KenzieHub:Name", user.couse_module);
-        toast.success("login realizado com sucesso!", {
-          style: {
-            background: "var(--Grey-3",
-            color: "var(--Grey-1)",
-            fontWeight: "700",
-          },
-        });
-        setTimeout(() => navigate("/home", 2500));
-      })
-
-      .catch((err) => {
-        toast.error(`${err.response.data.message}`, {
-          style: {
-            background: "var(--Grey-3)",
-            color: "var(--Grey-1)",
-            fontWeight: "700",
-          },
-        });
-        return false;
-      });
-  };
   return (
     <LoginContainer>
       <img src={logo} alt="Kenzie Hub Logo" />
-      <Forms onSubmit={handleSubmit(onSubmit)}>
+      <Forms onSubmit={handleSubmit(onLogin)}>
         <h2>Login</h2>
         <label htmlFor="logEmail">
           <p>Email</p>
