@@ -8,14 +8,6 @@ import { TechList } from "../../components/TechList";
 import { ModalLink } from "../../styles/techlist";
 
 export function Home() {
-  // const navigate = useNavigate();
-  // const profile = {
-  //   token: localStorage.getItem("KenzieHub:Token"),
-  //   name: localStorage.getItem("KenzieHub:Name"),
-  //   module: localStorage.getItem("KenzieHub:Module"),
-  // };
-  // if (!profile.token) navigate("/");
-
   const navigate = useNavigate();
   const { loading, profile, modal, setModal } = useContext(AuthContext);
   const userToken = localStorage.getItem("KenzieHub:Token");
@@ -40,7 +32,7 @@ export function Home() {
         <header>
           <div>
             <h3>Olá, {profile.name}</h3>
-            <p>{profile.module}</p>
+            <p>{profile.course_module}</p>
           </div>
         </header>
         <main>
