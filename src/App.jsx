@@ -3,7 +3,7 @@ import { WebRoutes } from "./routes/routes";
 
 function App() {
   return (
-    <AuthProvider>
+<AuthProvider>
       <WebRoutes />;
     </AuthProvider>
   );
