@@ -3,13 +3,12 @@ import logo from "../../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import api from "../../services/request";
 import { Forms } from "../../styles/forms";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function Register() {
-  const navigate = useNavigate();
+  const { registerUser } = useContext(AuthContext);
 
   const formSchema = yup.object().shape({
     name: yup
@@ -40,43 +39,13 @@ export function Register() {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit = (data) => {
-    delete data.verification;
-    console.log(data);
-    api
-      .post("/users", data)
-      .then(() =>
-        toast.success(
-          "Conta criada com sucesso!",
-          {
-            style: {
-              background: "var(--Grey-3)",
-              color: "var(--Grey-1)",
-              fontWeight: "700",
-            },
-          },
-          setTimeout(() => navigate("/"), 2500)
-        )
-      )
-      .catch((err) => {
-        toast.error(`Ops, algo deu errado!  ${err.response.data.message}`, {
-          style: {
-            background: "var(--Grey-3)",
-            color: "var(--Grey-1)",
-            fontWeight: "700",
-          },
-        });
-        return false;
-      });
-  };
-
   return (
     <RegisterContainer>
       <nav>
         <img src={logo} alt="Kenzie Hub Logo" />
         <GoToLogin to={"/"}>Voltar</GoToLogin>
       </nav>
-      <Forms onSubmit={handleSubmit(onSubmit)}>
+      <Forms onSubmit={handleSubmit(registerUser)}>
         <h2>Crie sua conta</h2>
         <strong>Rápido e grátis, vamos nessa.</strong>
         <label htmlFor="userNome">
