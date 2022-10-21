@@ -4,11 +4,20 @@ import { Forms, RegisterLink } from "../../styles/forms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export function Login() {
   const { onLogin } = useContext(AuthContext);
+  const navigate = useNavigate("");
+  const token = localStorage.getItem("KenzieHub:Token");
+
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate, token]);
 
   const yupSchema = yup.object().shape({
     email: yup

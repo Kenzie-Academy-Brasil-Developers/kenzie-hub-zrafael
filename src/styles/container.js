@@ -72,13 +72,13 @@ export const RegisterContainer = styled.div`
 
 export const HomeContainer = styled.div`
   width: 100vw;
-  margin: 20px 0px;
+  margin: 10px 0px;
 
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 35px;
+  gap: 10px;
 
   img {
     height: 20px;
@@ -147,5 +147,14 @@ export const HomeContainer = styled.div`
       font-size: 16px;
       font-weight: 400;
     }
+  }
+
+  .ulHeader {
+    width: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
   }
 `;

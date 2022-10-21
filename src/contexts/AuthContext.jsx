@@ -21,6 +21,7 @@ function AuthProvider({ children }) {
           const dataProfile = await api.get("/profile");
 
           setProfile(dataProfile.data);
+          console.log(dataProfile.data);
           setLoading(false);
         } catch (error) {
           toast.error(
@@ -97,6 +98,8 @@ function AuthProvider({ children }) {
       try {
         api.defaults.headers.authorization = `Bearer ${token}`;
         await api.post("/users/techs", info);
+        setModal(false);
+        window.location.reload();
       } catch (error) {
         toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
           style: {
@@ -110,12 +113,21 @@ function AuthProvider({ children }) {
       }
     }
   }
+
   async function delTech(info) {
     const token = localStorage.getItem("KenzieHub:Token");
     if (token) {
       try {
         api.defaults.headers.authorization = `Bearer ${token}`;
         await api.delete(`/users/techs/${info}`);
+        toast.success("Tecnologia deletada com sucesso!", {
+          style: {
+            background: "var(--Grey-3)",
+            color: "var(--Grey-1)",
+            fontWeight: "700",
+          },
+        });
+        window.location.reload();
       } catch (error) {
         toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
           style: {
