@@ -2,7 +2,17 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Tecnologias } from "../../styles/techlist";
 
-export function TechList({ techData }) {
+export interface iTechList {
+  id: string;
+  title: string;
+  status: string;
+}
+
+interface iTechData {
+  techData: iTechList[];
+}
+
+export function TechList({ techData }: iTechData) {
   const { delTech } = useContext(AuthContext);
   if (!techData.length) {
     return (
@@ -23,7 +33,7 @@ export function TechList({ techData }) {
                   <span
                     id={tech.id}
                     className="material-symbols-outlined"
-                    onClick={(event) => delTech(event.target.id)}
+                    onClick={() => delTech(tech.id)}
                   >
                     delete
                   </span>

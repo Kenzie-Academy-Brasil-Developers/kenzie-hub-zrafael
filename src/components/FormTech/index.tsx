@@ -5,6 +5,11 @@ import * as yup from "yup";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
+export interface iTechForm {
+  title: string;
+  status: string;
+}
+
 export function TechForm() {
   const { addTech, setModal } = useContext(AuthContext);
 
@@ -16,7 +21,7 @@ export function TechForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<iTechForm>({
     resolver: yupResolver(yupSchema),
   });
 
@@ -29,17 +34,12 @@ export function TechForm() {
       <div className="modalForm">
         <label htmlFor="techNome">
           <p>Nome</p>
-          <input
-            type="text"
-            name="techNome"
-            placeholder="Tecnologia"
-            {...register("title")}
-          />
+          <input type="text" placeholder="Tecnologia" {...register("title")} />
           <span>{errors.title?.message}</span>
         </label>
         <label htmlFor="techStatus">
           <p>Selecionar status</p>
-          <select type="text" name="techStatus" {...register("status")}>
+          <select {...register("status")}>
             <option value="Iniciante">Iniciante</option>
             <option value="Intermediário">Intermediário</option>
             <option value="Avançado">Avançado</option>

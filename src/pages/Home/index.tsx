@@ -1,5 +1,4 @@
 import { HomeContainer, GoToLogin } from "../../styles/container";
-import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -24,15 +23,15 @@ export function Home() {
       <HomeContainer>
         {modal ? <ModalWindow /> : null}
         <nav>
-          <img src={logo} alt="Kenzie Hub Logo" />
+          <img src={require("../../assets/logo.png")} alt="Kenzie Hub Logo" />
           <GoToLogin to={"/"} onClick={() => localStorage.clear()}>
             Sair
           </GoToLogin>
         </nav>
         <header>
           <div>
-            <h3>Olá, {profile.name}</h3>
-            <p>{profile.course_module}</p>
+            <h3>Olá, {profile?.name}</h3>
+            <p>{profile?.course_module}</p>
           </div>
         </header>
         <main>
@@ -40,7 +39,7 @@ export function Home() {
             <h3>Tecnologias</h3>
             <ModalLink onClick={() => setModal(true)}>+</ModalLink>
           </div>
-          <TechList techData={profile.techs} />
+          {profile ? <TechList techData={profile?.techs} /> : ""}
         </main>
       </HomeContainer>
     </>

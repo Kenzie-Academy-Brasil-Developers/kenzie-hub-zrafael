@@ -1,5 +1,4 @@
 import { RegisterContainer, GoToLogin } from "../../styles/container";
-import logo from "../../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -8,10 +7,20 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+export interface iRegisterUser {
+  name: string;
+  email: string;
+  password: string;
+  verification: string;
+  bio: string;
+  contact: string;
+  course_module: string;
+}
+
 export function Register() {
   const { registerUser } = useContext(AuthContext);
   const token = localStorage.getItem("KenzieHub:Token");
-  const navigate = useNavigate("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -44,14 +53,14 @@ export function Register() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<iRegisterUser>({
     resolver: yupResolver(formSchema),
   });
 
   return (
     <RegisterContainer>
       <nav>
-        <img src={logo} alt="Kenzie Hub Logo" />
+        <img src={require("../../assets/logo.png")} alt="Kenzie Hub Logo" />
         <GoToLogin to={"/"}>Voltar</GoToLogin>
       </nav>
       <Forms onSubmit={handleSubmit(registerUser)}>
@@ -61,7 +70,6 @@ export function Register() {
           <p>Nome</p>
           <input
             type="text"
-            name="userNome"
             placeholder="Digite aqui seu nome"
             {...register("name")}
           />
@@ -71,7 +79,6 @@ export function Register() {
           <p>Email</p>
           <input
             type="email"
-            name="userEmail"
             placeholder="Digite aqui seu email"
             {...register("email")}
           />
@@ -81,7 +88,6 @@ export function Register() {
           <p>Senha</p>
           <input
             type="password"
-            name="userPass"
             placeholder="Digite aqui sua senha"
             {...register("password")}
           />
@@ -91,7 +97,6 @@ export function Register() {
           <p>Confirmar Senha</p>
           <input
             type="password"
-            name="checkPass"
             placeholder="Digite novamente sua senha"
             {...register("verification")}
           />
@@ -101,7 +106,6 @@ export function Register() {
           <p>Bio</p>
           <input
             type="text"
-            name="userBio"
             placeholder="Fale sobre você"
             {...register("bio")}
           />
@@ -111,7 +115,6 @@ export function Register() {
           <p>Contato</p>
           <input
             type="text"
-            name="userContato"
             placeholder="Opção de contato"
             {...register("contact")}
           />
@@ -119,7 +122,7 @@ export function Register() {
         </label>
         <label htmlFor="userModulo">
           <p>Selecionar módulo</p>
-          <select type="text" name="userModulo" {...register("course_module")}>
+          <select {...register("course_module")}>
             <option value="Primeiro módulo (Introdução ao Frontend)">
               Módulo 1
             </option>

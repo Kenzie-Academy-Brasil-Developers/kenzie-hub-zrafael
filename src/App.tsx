@@ -3,9 +3,17 @@ import { WebRoutes } from "./routes/routes";
 
 function App() {
   return (
-<AuthProvider>
+<<<<<<<<< Temporary merge branch 1
+    <AuthProvider>
       <WebRoutes />;
     </AuthProvider>
+=========
+    
+    <AuthProvider>
+      <WebRoutes />;
+    </AuthProvider>
+    
+>>>>>>>>> Temporary merge branch 2
   );
 }
 
