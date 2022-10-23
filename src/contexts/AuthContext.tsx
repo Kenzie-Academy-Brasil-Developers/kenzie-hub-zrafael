@@ -48,17 +48,14 @@ function AuthProvider({ children }: iAuthProviderChildren) {
           setProfile(dataProfile.data);
           console.log(dataProfile.data);
           setLoading(false);
-        } catch (error: unknown?) {
-          toast.error(
-            `Ops, algo deu errado logue novamente!  ${error.response.data.message}`,
-            {
-              style: {
-                background: "var(--Grey-3)",
-                color: "var(--Grey-1)",
-                fontWeight: "700",
-              },
-            }
-          );
+        } catch (error) {
+          toast.error(`Ops, algo deu errado logue novamente!`, {
+            style: {
+              background: "var(--Grey-3)",
+              color: "var(--Grey-1)",
+              fontWeight: "700",
+            },
+          });
           localStorage.clear();
         }
       }
@@ -79,8 +76,8 @@ function AuthProvider({ children }: iAuthProviderChildren) {
       });
       setTimeout(() => navigate("/"), 2500);
       console.log(response);
-    } catch (error: unknown?) {
-      toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
+    } catch (error) {
+      toast.error(`Ops, algo deu errado!`, {
         style: {
           background: "var(--Grey-3)",
           color: "var(--Grey-1)",
@@ -103,8 +100,8 @@ function AuthProvider({ children }: iAuthProviderChildren) {
         },
       });
       window.location.replace("./home");
-    } catch (error: unknown?) {
-      toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
+    } catch (error) {
+      toast.error(`Email ou senha invalida`, {
         style: {
           background: "var(--Grey-3)",
           color: "var(--Grey-1)",
@@ -122,8 +119,8 @@ function AuthProvider({ children }: iAuthProviderChildren) {
         await api.post("/users/techs", info);
         setModal(false);
         window.location.reload();
-      } catch (error: unknown?) {
-        toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
+      } catch (error) {
+        toast.error(`Ops, algo deu errado!`, {
           style: {
             background: "var(--Grey-3)",
             color: "var(--Grey-1)",
@@ -150,8 +147,8 @@ function AuthProvider({ children }: iAuthProviderChildren) {
           },
         });
         window.location.reload();
-      } catch (error: unknown?) {
-        toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
+      } catch (error) {
+        toast.error(`Ops, algo deu errado!`, {
           style: {
             background: "var(--Grey-3)",
             color: "var(--Grey-1)",

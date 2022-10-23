@@ -56,7 +56,7 @@ export function Login() {
         <label htmlFor="logPass">
           <p>Senha</p>
           <input
-            type="password"
+            type="passwordvbr"
             placeholder="Senha de acesso"
             {...register("password")}
           />
