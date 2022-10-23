@@ -1,5 +1,4 @@
 import { LoginContainer } from "../../styles/container";
-import logo from "../../assets/logo.png";
 import { Forms, RegisterLink } from "../../styles/forms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,9 +7,14 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+export interface iUserLogin {
+  email: string;
+  password: string;
+}
+
 export function Login() {
   const { onLogin } = useContext(AuthContext);
-  const navigate = useNavigate("");
+  const navigate = useNavigate();
   const token = localStorage.getItem("KenzieHub:Token");
 
   useEffect(() => {
@@ -31,20 +35,19 @@ export function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<iUserLogin>({
     resolver: yupResolver(yupSchema),
   });
 
   return (
     <LoginContainer>
-      <img src={logo} alt="Kenzie Hub Logo" />
+      <img src={require("../../assets/logo.png")} alt="Kenzie Hub Logo" />
       <Forms onSubmit={handleSubmit(onLogin)}>
         <h2>Login</h2>
         <label htmlFor="logEmail">
           <p>Email</p>
           <input
             type="email"
-            name="logEmail"
             placeholder="E-mail de acesso"
             {...register("email")}
           />
@@ -54,7 +57,6 @@ export function Login() {
           <p>Senha</p>
           <input
             type="password"
-            name="logPass"
             placeholder="Senha de acesso"
             {...register("password")}
           />

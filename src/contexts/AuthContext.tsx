@@ -1,11 +1,36 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { iTechForm } from "../components/FormTech";
+import { iTechList } from "../components/TechList";
+import { iUserLogin } from "../pages/Login";
+import { iRegisterUser } from "../pages/Register";
 import api from "../services/request";
 
-export const AuthContext = createContext({});
+interface iAuthProviderChildren {
+  children: ReactNode;
+}
 
-function AuthProvider({ children }) {
+export interface iUserProfile {
+  name: string;
+  course_module: string;
+  techs: iTechList[];
+}
+
+interface iAuthContext {
+  onLogin: (info: iUserLogin) => void;
+  registerUser: (info: iRegisterUser) => void;
+  delTech: (id: string) => void;
+  addTech: (info: iTechForm) => void;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
+  modal: boolean;
+  profile: iUserProfile | null;
+}
+
+export const AuthContext = createContext<iAuthContext>({} as iAuthContext);
+
+function AuthProvider({ children }: iAuthProviderChildren) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -23,7 +48,7 @@ function AuthProvider({ children }) {
           setProfile(dataProfile.data);
           console.log(dataProfile.data);
           setLoading(false);
-        } catch (error) {
+        } catch (error: unknown?) {
           toast.error(
             `Ops, algo deu errado logue novamente!  ${error.response.data.message}`,
             {
@@ -41,23 +66,20 @@ function AuthProvider({ children }) {
     getProfile();
   }, []);
 
-  async function registerUser(data) {
+  async function registerUser(data: iRegisterUser) {
     try {
       const response = await api.post("/users", data);
 
-      toast.success(
-        "Conta criada com sucesso!",
-        {
-          style: {
-            background: "var(--Grey-3)",
-            color: "var(--Grey-1)",
-            fontWeight: "700",
-          },
+      toast.success("Conta criada com sucesso!", {
+        style: {
+          background: "var(--Grey-3)",
+          color: "var(--Grey-1)",
+          fontWeight: "700",
         },
-        setTimeout(() => navigate("/"), 2500)
-      );
+      });
+      setTimeout(() => navigate("/"), 2500);
       console.log(response);
-    } catch (error) {
+    } catch (error: unknown?) {
       toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
         style: {
           background: "var(--Grey-3)",
@@ -68,7 +90,7 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function onLogin(info) {
+  async function onLogin(info: iUserLogin) {
     try {
       const response = await api.post("/sessions", info);
 
@@ -81,7 +103,7 @@ function AuthProvider({ children }) {
         },
       });
       window.location.replace("./home");
-    } catch (error) {
+    } catch (error: unknown?) {
       toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
         style: {
           background: "var(--Grey-3)",
@@ -92,7 +114,7 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function addTech(info) {
+  async function addTech(info: iTechForm) {
     const token = localStorage.getItem("KenzieHub:Token");
     if (token) {
       try {
@@ -100,7 +122,7 @@ function AuthProvider({ children }) {
         await api.post("/users/techs", info);
         setModal(false);
         window.location.reload();
-      } catch (error) {
+      } catch (error: unknown?) {
         toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
           style: {
             background: "var(--Grey-3)",
@@ -114,7 +136,7 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function delTech(info) {
+  async function delTech(info: string) {
     const token = localStorage.getItem("KenzieHub:Token");
     if (token) {
       try {
@@ -128,7 +150,7 @@ function AuthProvider({ children }) {
           },
         });
         window.location.reload();
-      } catch (error) {
+      } catch (error: unknown?) {
         toast.error(`Ops, algo deu errado!  ${error.response.data.message}`, {
           style: {
             background: "var(--Grey-3)",
